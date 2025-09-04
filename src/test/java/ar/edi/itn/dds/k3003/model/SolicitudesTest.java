@@ -1,9 +1,10 @@
 package ar.edi.itn.dds.k3003.model;
 
+import ar.edu.utn.dds.k3003.RestClient.FuenteRestClient;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.app.ServicioAntiSpam;
 import ar.edu.utn.dds.k3003.app.Solicitud;
-import ar.edu.utn.dds.k3003.facades.FachadaFuente;
+
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
@@ -21,22 +22,22 @@ class SolicitudesTest {
     private Fachada fachada;
     private SolicitudRepository mockRepo;
     private ServicioAntiSpam mockSpam;
-    private FachadaFuente mockFuente;
+    private FuenteRestClient mockFuente;
 
     @BeforeEach
     void setUp() {
         mockRepo = mock(SolicitudRepository.class);
         mockSpam = mock(ServicioAntiSpam.class);
-        mockFuente = mock(FachadaFuente.class);
+        mockFuente = mock(FuenteRestClient.class);
 
-        fachada = new Fachada(mockRepo, mockSpam);
-        fachada.setFachadaFuente(mockFuente);
+        fachada = new Fachada(mockRepo, mockSpam, mockFuente);
+
     }
 
     @Test
     void agregar_agregaSolicitud_cuandoHechoExiste() {
         HechoDTO hecho = new HechoDTO("unHecho", "coleccionX", "titulo");
-        when(mockFuente.buscarHechoXId("unHecho")).thenReturn(hecho);
+        when(mockFuente.findHechoById("unHecho")).thenReturn(hecho);
         Solicitud solicitudMock = new Solicitud("unHecho", "descripcion");
         solicitudMock.setId(1L);
 

@@ -20,37 +20,33 @@ public class SolicitudController {
         this.fachada = fachada;
     }
 
-    @GetMapping
+    @GetMapping(params= "hecho")
     public ResponseEntity<List<SolicitudDTO>> buscarPorHecho(@RequestParam("hecho") String hechoId) {
         return ResponseEntity.ok(fachada.buscarSolicitudXHecho(hechoId));
     }
 
+    @GetMapping
+    public ResponseEntity<List<SolicitudDTO>> buscarSolicitudes() {
+        return ResponseEntity.ok(fachada.buscarSolicitudes());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<SolicitudDTO> buscarPorId(@PathVariable String id) {
-        try {
             return ResponseEntity.ok(fachada.buscarSolicitudXId(id));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    }
+
+    @GetMapping("/estado/{tipo}")
+    public ResponseEntity<List<SolicitudDTO>> buscarPorEstado(@PathVariable String tipo) {
+            return ResponseEntity.ok(fachada.buscarSolicitudesXEstado(tipo));
     }
 
     @PostMapping
     public ResponseEntity<SolicitudDTO> agregar(@RequestBody SolicitudDTO dto) {
-        try {
             return ResponseEntity.ok(fachada.agregar(dto));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
     }
 
     @PatchMapping
     public ResponseEntity<SolicitudDTO> modificar(@RequestBody SolicitudModificacionRequestDTO body) {
-        try {
-            return ResponseEntity.ok(
-                    fachada.modificar(body.getId(), body.getEstado(), body.getDescripcion())
-            );
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+            return ResponseEntity.ok(fachada.modificar(body.getId(), body.getEstado(), body.getDescripcion()));
     }
 }
