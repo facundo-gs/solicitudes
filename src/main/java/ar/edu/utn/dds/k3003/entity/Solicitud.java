@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.k3003.app;
+package ar.edu.utn.dds.k3003.entity;
 
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import jakarta.persistence.*;

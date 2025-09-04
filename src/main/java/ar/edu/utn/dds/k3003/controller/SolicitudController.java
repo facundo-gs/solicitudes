@@ -4,7 +4,7 @@ import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import ar.edu.utn.dds.k3003.app.SolicitudModificacionRequestDTO;
+import ar.edu.utn.dds.k3003.dto.SolicitudModificacionRequestDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

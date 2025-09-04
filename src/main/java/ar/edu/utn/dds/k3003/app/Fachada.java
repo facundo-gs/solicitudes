@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.k3003.app;
 
 import ar.edu.utn.dds.k3003.RestClient.FuenteRestClient;
+import ar.edu.utn.dds.k3003.entity.Solicitud;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
 import ar.edu.utn.dds.k3003.repository.SolicitudRepository;

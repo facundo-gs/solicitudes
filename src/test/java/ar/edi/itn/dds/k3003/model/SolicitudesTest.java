@@ -3,7 +3,7 @@ package ar.edi.itn.dds.k3003.model;
 import ar.edu.utn.dds.k3003.RestClient.FuenteRestClient;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.app.ServicioAntiSpam;
-import ar.edu.utn.dds.k3003.app.Solicitud;
+import ar.edu.utn.dds.k3003.entity.Solicitud;
 
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;

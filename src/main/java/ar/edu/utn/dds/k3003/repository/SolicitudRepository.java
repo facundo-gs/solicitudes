@@ -1,6 +1,6 @@
 package ar.edu.utn.dds.k3003.repository;
 
-import ar.edu.utn.dds.k3003.app.Solicitud;
+import ar.edu.utn.dds.k3003.entity.Solicitud;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
