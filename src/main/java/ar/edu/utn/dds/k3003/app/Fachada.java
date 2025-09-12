@@ -1,16 +1,13 @@
 package ar.edu.utn.dds.k3003.app;
 
-import ar.edu.utn.dds.k3003.RestClient.FuenteRestClient;
+import ar.edu.utn.dds.k3003.rest_client.FuenteRestClient;
 import ar.edu.utn.dds.k3003.entity.Solicitud;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
 import ar.edu.utn.dds.k3003.repository.SolicitudRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-
 
 @Service
 public class Fachada {
@@ -39,8 +36,14 @@ public class Fachada {
 
     public SolicitudDTO modificar(String solicitudId, EstadoSolicitudBorradoEnum estado, String descripcion) {
         Solicitud solicitud = obtenerPorId(Long.parseLong(solicitudId));
-        solicitud.setDescripcion(descripcion);
-        solicitud.setEstado(estado);
+        if (descripcion != null) {
+            solicitud.setDescripcion(descripcion);
+        }
+        if (estado != null) {
+            solicitud.setEstado(estado);
+            if(estado == EstadoSolicitudBorradoEnum.ACEPTADA)
+                fuenteRestClient.censurarHecho(solicitud.getHechoId());
+        }
         solicitud = solicitudRepository.save(solicitud);
         return toResponseDTO(solicitud);
     }
@@ -49,13 +52,13 @@ public class Fachada {
     public List<SolicitudDTO> buscarSolicitudXHecho(String hechoId) {
         return solicitudRepository.findByHechoId(hechoId).stream()
                 .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<SolicitudDTO> buscarSolicitudes() {
         return solicitudRepository.findAll().stream()
                 .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
@@ -66,7 +69,7 @@ public class Fachada {
     public List<SolicitudDTO> buscarSolicitudesXEstado(String estado) {
         return obtenerPorEstado(estado).stream()
                 .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public boolean estaActivo(String id) {
@@ -101,5 +104,15 @@ public class Fachada {
                 solicitud.getEstado(),
                 solicitud.getHechoId()
         );
+    }
+
+    public boolean hechoActivo(String hechoId) {
+        try {
+            validarHecho(hechoId);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            throw new NoSuchElementException("No existe hecho activo bajo el id " + hechoId);
+        }
+
     }
 }

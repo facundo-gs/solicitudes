@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/solicitudes")
+@RequestMapping("/api/solicitudes")
 public class SolicitudController {
 
     private final Fachada fachada;
@@ -48,5 +48,10 @@ public class SolicitudController {
     @PatchMapping
     public ResponseEntity<SolicitudDTO> modificar(@RequestBody SolicitudModificacionRequestDTO body) {
             return ResponseEntity.ok(fachada.modificar(body.getId(), body.getEstado(), body.getDescripcion()));
+    }
+
+    @GetMapping("/activo/{hechoId}")
+    public ResponseEntity<Boolean> estaActivo(@PathVariable String hechoId) {
+        return ResponseEntity.ok(fachada.hechoActivo(hechoId));
     }
 }

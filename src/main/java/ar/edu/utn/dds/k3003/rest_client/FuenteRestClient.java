@@ -1,8 +1,10 @@
-package ar.edu.utn.dds.k3003.RestClient;
+package ar.edu.utn.dds.k3003.rest_client;
 
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+
+import java.util.Map;
 
 @Component
 public class FuenteRestClient {
@@ -21,6 +23,15 @@ public class FuenteRestClient {
     public HechoDTO findHechoById(String id) {
         return restClient.get()
                 .uri("/api/hecho/{id}", id)
+                .retrieve()
+                .body(HechoDTO.class);
+    }
+
+    public HechoDTO censurarHecho(String hechoId) {
+        Map<String, String> payload = Map.of("estado", "CENSURADO");
+        return restClient.patch()
+                .uri("/api/hecho/{id}", hechoId)
+                .body(payload)
                 .retrieve()
                 .body(HechoDTO.class);
     }
