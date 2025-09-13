@@ -115,4 +115,9 @@ public class Fachada {
         }
 
     }
+
+    public String borrarTodo() {
+        solicitudRepository.deleteAll();
+        return "Se eliminaron todas las solicitudes";
+    }
 }

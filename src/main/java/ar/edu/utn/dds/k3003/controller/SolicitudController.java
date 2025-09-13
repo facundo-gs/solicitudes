@@ -54,4 +54,10 @@ public class SolicitudController {
     public ResponseEntity<Boolean> estaActivo(@PathVariable String hechoId) {
         return ResponseEntity.ok(fachada.hechoActivo(hechoId));
     }
+
+    @PostMapping("/borrarTodo")
+    public ResponseEntity<String> borrarTodo() {
+        return ResponseEntity.ok(fachada.borrarTodo());
+    }
+
 }
