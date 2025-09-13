@@ -27,13 +27,13 @@ public class FuenteRestClient {
                 .body(HechoDTO.class);
     }
 
-    public HechoDTO censurarHecho(String hechoId) {
+    public String censurarHecho(String hechoId) {
         Map<String, String> payload = Map.of("estado", "CENSURADO");
         return restClient.patch()
                 .uri("/api/hecho/{id}", hechoId)
                 .body(payload)
                 .retrieve()
-                .body(HechoDTO.class);
+                .body(String.class);
     }
 
 }
