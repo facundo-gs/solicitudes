@@ -78,7 +78,7 @@ public class Fachada {
 
     private Solicitud obtenerPorId(Long id) {
         return solicitudRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Solicitud no encontrada"));
+                .orElseThrow(() -> new NoSuchElementException("La solicitud id " + id + " no existe"));
     }
 
     private List<Solicitud> obtenerPorEstado(String estado) {
@@ -93,7 +93,7 @@ public class Fachada {
         try {
             fuenteRestClient.findHechoById(hechoId);
         }catch (RuntimeException e) {
-            throw new IllegalArgumentException("El hecho no existe");
+            throw new IllegalArgumentException("El hecho id " + hechoId + " no existe");
         }
     }
 
