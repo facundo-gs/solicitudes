@@ -1,5 +1,6 @@
 package ar.edi.itn.dds.k3003.model;
 
+import ar.edu.utn.dds.k3003.rest_client.BusquedaNotificationClient;
 import ar.edu.utn.dds.k3003.rest_client.FuenteRestClient;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.app.ServicioAntiSpam;
@@ -23,14 +24,16 @@ class SolicitudesTest {
     private SolicitudRepository mockRepo;
     private ServicioAntiSpam mockSpam;
     private FuenteRestClient mockFuente;
+    private BusquedaNotificationClient mockBusqueda;
 
     @BeforeEach
     void setUp() {
         mockRepo = mock(SolicitudRepository.class);
         mockSpam = mock(ServicioAntiSpam.class);
         mockFuente = mock(FuenteRestClient.class);
+        mockBusqueda = mock(BusquedaNotificationClient.class);
 
-        fachada = new Fachada(mockRepo, mockSpam, mockFuente);
+        fachada = new Fachada(mockRepo, mockSpam, mockFuente, mockBusqueda);
 
     }
 

@@ -1,27 +1,24 @@
 package ar.edu.utn.dds.k3003.app;
 
+import ar.edu.utn.dds.k3003.rest_client.BusquedaNotificationClient;
 import ar.edu.utn.dds.k3003.rest_client.FuenteRestClient;
 import ar.edu.utn.dds.k3003.entity.Solicitud;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
 import ar.edu.utn.dds.k3003.repository.SolicitudRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class Fachada {
 
     private final SolicitudRepository solicitudRepository;
     private final ServicioAntiSpam servicioAntiSpam;
     private final FuenteRestClient fuenteRestClient;
-
-   public Fachada(SolicitudRepository solicitudRepository, ServicioAntiSpam servicioAntiSpam, FuenteRestClient fuenteRestClient) {
-        this.solicitudRepository = solicitudRepository;
-        this.servicioAntiSpam = servicioAntiSpam;
-        this.fuenteRestClient = fuenteRestClient;
-    }
-
+    private final BusquedaNotificationClient busquedaClient;;
 
     public SolicitudDTO agregar(SolicitudDTO dto) {
         validarHecho(dto.hechoId());
@@ -41,8 +38,10 @@ public class Fachada {
         }
         if (estado != null) {
             solicitud.setEstado(estado);
-            if(estado == EstadoSolicitudBorradoEnum.ACEPTADA)
+            if(estado == EstadoSolicitudBorradoEnum.ACEPTADA) {
                 fuenteRestClient.censurarHecho(solicitud.getHechoId());
+                busquedaClient.notificarSolicitudAceptada(solicitud.getHechoId());
+            }
         }
         solicitud = solicitudRepository.save(solicitud);
         return toResponseDTO(solicitud);
